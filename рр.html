@@ -1,0 +1,14 @@
+<!DOCTYPE html> <html lang="ru"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1" /> <title>Калькулятор Дениса</title> </head> <body> <h1>Калькулятор Дениса для расчета тепловых потерь</h1>
+<label>Объем воздуха при открытии (м³):</label> <input id="volume" type="number" min="0" step="any" />
+
+<label>Температура внутри (°C):</label> <input id="tempInside" type="number" />
+
+<label>Температура снаружи (°C):</label> <input id="tempOutside" type="number" />
+
+<label>Количество открытий в день:</label> <input id="openings" type="number" min="0" step="1" />
+
+<label>Стоимость 1 м³ газа (руб.):</label> <input id="tariff" type="number" min="0" step="any" />
+
+<button id="calculateBtn">Рассчитать</button>
+
+<div id="result" style="margin-top:20px;"></div> <script> document.getElementById('calculateBtn').addEventListener('click', function() { const V = parseFloat(document.getElementById('volume').value); const inside = parseFloat(document.getElementById('tempInside').value); const outside = parseFloat(document.getElementById('tempOutside').value); const openings = parseInt(document.getElementById('openings').value); const tariff = parseFloat(document.getElementById('tariff').value); if (isNaN(V) || V < 0 || isNaN(inside) || isNaN(outside) || isNaN(openings) || openings < 0 || isNaN(tariff) || tariff < 0) { alert('Пожалуйста, введите корректные данные во все поля.'); return; } if (inside <= outside) { alert('Температура внутри должна быть выше температуры снаружи.'); return; } const rho = 1.225; const c = 1005; const energy = V * rho * c * (inside - outside) * openings; const kWh = energy / 3600000; const gas = kWh * 0.095; const cost = gas * tariff; const resultDiv = document.getElementById('result'); resultDiv.innerHTML = ` <strong>Результаты:</strong><br> Газ для компенсации тепловых потерь: ${gas.toFixed(2)} м³<br> Стоимость теплопотерь: ${cost.toFixed(2)} рублей `; }); </script> </body> </html>
